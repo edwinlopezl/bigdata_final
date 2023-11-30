@@ -7,13 +7,21 @@ from pyspark.sql.functions import col, when
 
 from pyspark.sql import functions as F
 
+import sys
+
 spark = SparkSession\
       .builder\
       .appName("TrabajoFinal")\
       .getOrCreate()
 
+if len(sys.argv) != 2:
+    print("Uso: python script_final.py <nombre_del_archivo.csv>")
+    sys.exit(1)
+
+archivo_csv = sys.argv[1]
+
 # Carga de la base
-df = spark.read.csv('Tweets.csv', header = True, inferSchema = True)
+df = spark.read.csv(archivo_csv, header = True, inferSchema = True)
 
 # Limpieza de datos
 # Eliminacion de label neutro, y creacion de label numerico
